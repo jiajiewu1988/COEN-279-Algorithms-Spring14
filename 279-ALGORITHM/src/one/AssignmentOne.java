@@ -86,10 +86,14 @@ public class AssignmentOne {
 		for (int i = 0; i < trialModuloCount.length; i++) { //Initialize Count
 			trialModuloCount[i] = 0;
 		}
+		long[] timeSpent = new long[4];
 		for (int i = num; i <= num + RANGE; i++) {
 			isPrime1(i);
+			
 			isPrime2(i);
+			
 			isPrime3(i);
+			
 			isPrime4(i);
 		}	
 		System.out.print(num + " - " + (num+1000) + " : \n");
@@ -103,8 +107,8 @@ public class AssignmentOne {
 		buildPrimeArray();
 		doStatistics(TEN_POWER_SIX);
 		doStatistics(TEN_POWER_SEVEN);
-		doStatistics(TEN_POWER_EIGHT);
-		doStatistics(TEN_POWER_NINE);
+//		doStatistics(TEN_POWER_EIGHT);
+//		doStatistics(TEN_POWER_NINE);
 	}
 	
 }
