@@ -10,18 +10,26 @@ public class AssignmentOne {
 	private static int[] primeArray = new int[PRIME_ARRAY_LENGTH];
 	
 	private static final long[] trialModuloCount = new long[4];
+	private static final long[] trialModuloMax = new long[4];
 	
 	public static boolean isPrime1(int num) {
 		//negative integers, 0, and 1 are not primes
 		if (num <= 1) return false;
 		int d = 2;
+		int modCount = 0;
 		
 		while (d <= num) {
 			trialModuloCount[0]++;
-			if (num % d == 0)
+			modCount++;
+			if (num % d == 0){
+				if (modCount > trialModuloMax[0]) trialModuloMax[0] = modCount;
 				return false;
+			}
 			d += 1;
 		}
+		
+		if (modCount > trialModuloMax[0]) trialModuloMax[0] = modCount;
+		
 		return true;
 	}
 	
@@ -30,13 +38,19 @@ public class AssignmentOne {
 		if (num == 2) return true; //2 is prime
 		if (num % 2 == 0) return false;
 		int d = 3;
+		int modCount = 0;
 		
 		while (d < num) {
 			trialModuloCount[1]++;
-			if (num % d == 0) 
+			modCount++;
+			if (num % d == 0) {
+				if (modCount > trialModuloMax[1]) trialModuloMax[1] = modCount;
 				return false;
+			}
 			d += 2;
 		}
+		
+		if (modCount > trialModuloMax[1]) trialModuloMax[1] = modCount;
 		return true;
 	}
 	
@@ -46,13 +60,18 @@ public class AssignmentOne {
 		if (num % 2 == 0) return false;
 		
 		int d = 3;
+		int modCount = 0;
 		while (d * d <= num) {
 			trialModuloCount[2]++;
-			if (num % d == 0) 
+			modCount++;
+			if (num % d == 0) { 
+				if (modCount > trialModuloMax[2]) trialModuloMax[2] = modCount;
 				return false;
+			}
 			d += 2;
 		}
 		
+		if (modCount > trialModuloMax[2]) trialModuloMax[2] = modCount;
 		return true;
 	}
 	
@@ -60,14 +79,19 @@ public class AssignmentOne {
 		if (num <= 1) return false;
 		int i = 0;
 		int end = (int) Math.floor(Math.sqrt((double) num));
+		int modCount = 0;
 		
 		while (primeArray[i] <= end) {
 			trialModuloCount[3]++;
-			if (num % primeArray[i] == 0) 
+			modCount++;
+			if (num % primeArray[i] == 0) {
+				if (modCount > trialModuloMax[3]) trialModuloMax[3] = modCount;
 				return false;
+			}
 			i += 1;
 		}
 		
+		if (modCount > trialModuloMax[3]) trialModuloMax[3] = modCount;
 		return true;
 	}
 	
@@ -85,20 +109,19 @@ public class AssignmentOne {
 	public static void doStatistics(int num) {
 		for (int i = 0; i < trialModuloCount.length; i++) { //Initialize Count
 			trialModuloCount[i] = 0;
+			trialModuloMax[i] = 0;
 		}
 		long[] timeSpent = new long[4];
 		for (int i = num; i <= num + RANGE; i++) {
 			isPrime1(i);
-			
 			isPrime2(i);
-			
 			isPrime3(i);
-			
 			isPrime4(i);
 		}	
 		System.out.print(num + " - " + (num+1000) + " : \n");
 		for (int i = 0; i < trialModuloCount.length; i++) {
-			System.out.println("isPrime" + (i+1) + " : " + trialModuloCount[i]);
+			System.out.println("isPrime" + (i+1) + " : " + trialModuloCount[i]
+					+ " Max: " + trialModuloMax[i]);
 		}
 		System.out.println();
 	}
