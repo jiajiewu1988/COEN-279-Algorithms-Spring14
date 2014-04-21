@@ -1,29 +1,29 @@
 package one;
 
 /**
- *1000000 - 1001000 : 
- *isPrime1 : Average Operation: 75058/ Max: 1000997/ # of Prime: 75
- *isPrime2 : Average Operation: 37529/ Max: 500498/ # of Prime: 75
- *isPrime3 : Average Operation: 48/ Max: 499/ # of Prime: 75
- *isPrime4 : Average Operation: 18/ Max: 168/ # of Prime: 75
+1000000 - 1001000 : 
+isPrime1 : Average Operation: 74983.99/ Max: 1000997/ # of Prime: 75
+isPrime2 : Average Operation: 37492.71/ Max: 500499/ # of Prime: 75
+isPrime3 : Average Operation: 49.345654/ Max: 499/ # of Prime: 75
+isPrime4 : Average Operation: 18.36963/ Max: 168/ # of Prime: 75
 
- *10000000 - 10001000 : 
- *isPrime1 : Average Operation: 610098/ Max: 10000991/ # of Prime: 61
- *isPrime2 : Average Operation: 305048/ Max: 5000495/ # of Prime: 61
- *isPrime3 : Average Operation: 127/ Max: 1580/ # of Prime: 61
- *isPrime4 : Average Operation: 39/ Max: 446/ # of Prime: 61
- *
- *100000000 - 100001000 : 
- *isPrime1 : Average Operation: 5400158/ Max: 100000967/ # of Prime: 54
- *isPrime2 : Average Operation: 2700079/ Max: 50000483/ # of Prime: 54
- *isPrime3 : Average Operation: 335/ Max: 4999/ # of Prime: 54
- *isPrime4 : Average Operation: 86/ Max: 1229/ # of Prime: 54
+10000000 - 10001000 : 
+isPrime1 : Average Operation: 609488.75/ Max: 10000991/ # of Prime: 61
+isPrime2 : Average Operation: 304745.12/ Max: 5000496/ # of Prime: 61
+isPrime3 : Average Operation: 128.86613/ Max: 1580/ # of Prime: 61
+isPrime4 : Average Operation: 38.987015/ Max: 446/ # of Prime: 61
 
- *1000000000 - 1000001000 : 
- *isPrime1 : Average Operation: 49000343/ Max: 1000000991/ # of Prime: 49
- *isPrime2 : Average Operation: 24500171/ Max: 500000495/ # of Prime: 49
- *isPrime3 : Average Operation: 934/ Max: 15810/ # of Prime: 49
- *isPrime4 : Average Operation: 208/ Max: 3401/ # of Prime: 49
+100000000 - 100001000 : 
+isPrime1 : Average Operation: 5394764.0/ Max: 100000967/ # of Prime: 54
+isPrime2 : Average Operation: 2697382.8/ Max: 50000484/ # of Prime: 54
+isPrime3 : Average Operation: 336.36963/ Max: 4999/ # of Prime: 54
+isPrime4 : Average Operation: 86.596405/ Max: 1229/ # of Prime: 54
+
+1000000000 - 1000001000 : 
+isPrime1 : Average Operation: 4.8951392E7/ Max: 1000000991/ # of Prime: 49
+isPrime2 : Average Operation: 2.4475698E7/ Max: 500000496/ # of Prime: 49
+isPrime3 : Average Operation: 934.6613/ Max: 15810/ # of Prime: 49
+isPrime4 : Average Operation: 207.87112/ Max: 3401/ # of Prime: 49
  *
  *
  * @author jerry
@@ -66,9 +66,13 @@ public class AssignmentOne {
 	public static boolean isPrime2(int num) {
 		if (num <= 1) return false;
 		if (num == 2) return true; //2 is prime
+		int modCount = 0;
+		modCount++;
+		if (modCount > trialModuloMax[1]) trialModuloMax[1] = modCount;
+		trialModuloCount[1]++;
 		if (num % 2 == 0) return false;
 		int d = 3;
-		int modCount = 0;
+		
 		
 		while (d < num) {
 			trialModuloCount[1]++;
@@ -87,10 +91,12 @@ public class AssignmentOne {
 	public static boolean isPrime3(int num) {
 		if (num <= 1) return false;
 		if (num == 2) return true; // 2 is prime
+		int modCount = 0;
+		if (modCount > trialModuloMax[2]) trialModuloMax[2] = modCount;
+		trialModuloCount[2]++;
 		if (num % 2 == 0) return false;
 		
 		int d = 3;
-		int modCount = 0;
 		while (d * d <= num) {
 			trialModuloCount[2]++;
 			modCount++;
@@ -151,7 +157,7 @@ public class AssignmentOne {
 		}	
 		System.out.print(num + " - " + (num+1000) + " : \n");
 		for (int i = 0; i < trialModuloCount.length; i++) {
-			System.out.println("isPrime" + (i+1) + " : Average Operation: " + (trialModuloCount[i]/1000)
+			System.out.println("isPrime" + (i+1) + " : Average Operation: " + (float) ((float) trialModuloCount[i]/1001)
 					+ "/ Max: " + trialModuloMax[i] + "/ # of Prime: " + primeCount[i]);
 		}
 		System.out.println();
