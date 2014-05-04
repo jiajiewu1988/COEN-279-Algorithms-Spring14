@@ -82,7 +82,8 @@ public class Assignment2 {
 				topLow++;
 				topEqual++;
 				int temp = a[i];
-				a[i] = a[topLow];
+				a[i] = a[topEqual];
+				a[topEqual] = a[topLow];
 				a[topLow] = temp;
 			} else if (a[i] == p) {
 				topEqual++;
@@ -164,17 +165,25 @@ public class Assignment2 {
 //		}
 		
 		//3rd qs
-//		int[] qsArray = generatingArray(10000000, (int) Math.pow(10.0, 4.0));
-//		long start = System.currentTimeMillis();
-//		quickSort(qsArray, 0, qsArray.length - 1);
-//		long end = System.currentTimeMillis();
-//		System.out.println("qs result " + (end - start));
-		
-		int[] qs3Array = generatingArray(10000000, (int) Math.pow(10.0, 1.0));
+		int[] qsArray = generatingArray(10000000, (int) Math.pow(10.0, 7.0));
 		long start = System.currentTimeMillis();
-		quickSort3(qs3Array, 0, qs3Array.length - 1);
+		quickSort(qsArray, 0, qsArray.length - 1);
 		long end = System.currentTimeMillis();
+		System.out.println("qs result " + (end - start));
+		
+		int[] qs3Array = generatingArray(10000000, (int) Math.pow(10.0, 7.0));
+		start = System.currentTimeMillis();
+		quickSort3(qs3Array, 0, qs3Array.length - 1);
+		end = System.currentTimeMillis();
 		System.out.println("qs3 result " + (end - start));
-		System.out.println();
+		
+		for (int i = 1; i < qs3Array.length; i++) {
+			if (qs3Array[i] < qs3Array[i-1]) {
+				System.out.println("qs3 array not sorted");
+				break;
+			}
+		}
+		
+		System.out.println("end");
 	}
 }
