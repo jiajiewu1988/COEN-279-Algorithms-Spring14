@@ -1,6 +1,16 @@
 package two;
 import java.util.Random;
 
+/**
+ * In quicksort 3, when the UNIQUE_COUNT is less than 10^2, there will be 
+ * StackOverflowError occur to java runtime macheine. The reason of this is
+ * because when there are a lot of same elements in the array, normal partition
+ * requires a lot of java runtime stack size to store recursive call information.
+ * When the required stack size exceeds the stack size given by jvm, there is a 
+ * stack overflow error.
+ * @author jerry
+ *
+ */
 
 public class Assignment2 {
 	private static final int ARRAY_LENGTH = 5000000;
@@ -55,6 +65,14 @@ public class Assignment2 {
 		}
 	}
 	
+	public static void quickSort3_OfficialVersion(int[] a, int start, int end) {
+		if (start < end) {
+			int[] mid = partition3_official_version(a, start, end);
+			quickSort3_OfficialVersion(a, start, mid[0] - 1);
+			quickSort3_OfficialVersion(a, mid[1], end);
+		}
+	}
+	
 	public static int partition(int[] a, int start, int end) {
 		int p = a[end];
 		int topLow = start - 1;
@@ -100,6 +118,27 @@ public class Assignment2 {
 		return result;
 	}
 	
+	public static int[] partition3_official_version(int[] a, int start, int end) {
+		int p = a[start];
+		int topLow = start, topEqual = start;
+		for (int i = start + 1; i <= end; i++) {
+			if (a[i] < p) {
+				int temp = a[i];
+				a[i] = a[topEqual+1];
+				a[topEqual+1] = a[topLow];
+				a[topLow] = temp;
+				topLow++;
+				topEqual++;
+			} else if (a[i] == p) {
+				int temp = a[topEqual+1];
+				a[topEqual+1] = a[i];
+				a[i] = temp;
+				topEqual++;
+			}
+		}
+		return new int[]{topLow, topEqual + 1};
+	}
+	
 	public static void insertionSort(int[] a, int start, int end) {
 		for (int j = start + 1; j <= end; j++) {
 			int key = a[j];
@@ -124,7 +163,7 @@ public class Assignment2 {
 		}
 		
 		//first quick sort test
-		/*
+		
 		for (int i = 5; i <= 300; i += 5) {
 			a1 = generatingArray(ARRAY_LENGTH);
 			long qsStart = System.currentTimeMillis();
@@ -137,53 +176,49 @@ public class Assignment2 {
 			a2 = generatingArray(ARRAY_LENGTH);
 			long instStart = System.currentTimeMillis();
 			for (int j = 0; j + i < ARRAY_LENGTH; j += i) {
-				int[] subarray = new int[i];
-				for (int k = 0; k < i; k++) {
-					subarray[k] = a2[j + k];
-				}
-				insertionSort(subarray);
+				insertionSort(a2, j, j + i - 1);
 			}
 			long instEnd = System.currentTimeMillis();
 			insertTimeUsed[i/5 - 1] = instEnd - instStart;
 		}
-		*/
+		
+		System.out.println("\tQS\tInsertion");
+		for (int i = 0; i < 60; i++) {
+			System.out.print((i+1) * 5 + "\t");
+			System.out.println(qsTimeUsed[i] + "\t" + insertTimeUsed[i]);
+		}
 		
 		//2nd quickSort
-		/*
+		System.out.println("\nQS combine Insertion Sort.");
 		for (int i = 1; i <= 200; i++) {
 			int INSERTION_SORT_THRESHOLD = i;
 			int[] a3 = generatingArray(ARRAY_LENGTH);
 			long start = System.currentTimeMillis();
 			quickSort2(a3, 0, a3.length - 1, INSERTION_SORT_THRESHOLD);
 			long end = System.currentTimeMillis();
-			System.out.println((end - start));
+			System.out.println(i + "\t" + (end - start));
 		}
-		*/
-//		for (int i = 0; i < 60; i++) {
-//			//System.out.print((i+1) * 5 + " ");
-//			System.out.println(insertTimeUsed[i]);
-//		}
 		
 		//3rd qs
-		int[] qsArray = generatingArray(10000000, (int) Math.pow(10.0, 7.0));
-		long start = System.currentTimeMillis();
-		quickSort(qsArray, 0, qsArray.length - 1);
-		long end = System.currentTimeMillis();
-		System.out.println("qs result " + (end - start));
-		
-		int[] qs3Array = generatingArray(10000000, (int) Math.pow(10.0, 7.0));
-		start = System.currentTimeMillis();
-		quickSort3(qs3Array, 0, qs3Array.length - 1);
-		end = System.currentTimeMillis();
-		System.out.println("qs3 result " + (end - start));
-		
-		for (int i = 1; i < qs3Array.length; i++) {
-			if (qs3Array[i] < qs3Array[i-1]) {
-				System.out.println("qs3 array not sorted");
-				break;
+		for (double UNIQUE_COUNT = 7.0; UNIQUE_COUNT > 0.0; UNIQUE_COUNT -= 1.0) {
+			System.out.println("\nUNIQUE_COUNT is " + UNIQUE_COUNT);
+			int[] qsArray = generatingArray(10000000, (int) Math.pow(10.0, UNIQUE_COUNT));
+			long start = System.currentTimeMillis();
+			boolean isStackOverflow = false;
+			try {
+				quickSort(qsArray, 0, qsArray.length - 1);
+			} catch (StackOverflowError e) {
+				isStackOverflow = true;
+				System.err.println("QS Stack Over Flow.");
 			}
+			long end = System.currentTimeMillis();
+			if (!isStackOverflow) System.out.println("qs result " + (end - start));
+			
+			int[] qs3Array = generatingArray(10000000, (int) Math.pow(10.0, UNIQUE_COUNT));
+			long start2 = System.currentTimeMillis();
+			quickSort3(qs3Array, 0, qs3Array.length - 1);
+			long end2 = System.currentTimeMillis();
+			System.out.println("qs3 result " + (end2 - start2));
 		}
-		
-		System.out.println("end");
 	}
 }
