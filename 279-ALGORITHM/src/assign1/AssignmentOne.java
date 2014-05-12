@@ -1,4 +1,4 @@
-package one;
+package assign1;
 
 /**
 1000000 - 1001000 : 

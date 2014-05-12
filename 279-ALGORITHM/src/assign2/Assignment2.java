@@ -1,4 +1,4 @@
-package two;
+package assign2;
 import java.util.Random;
 
 /**
