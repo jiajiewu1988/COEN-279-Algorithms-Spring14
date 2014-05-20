@@ -2,7 +2,7 @@ package assign3;
 
 import java.util.Arrays;
 
-public class Assignment3 {
+public class myBreakString {
 	
 	/**
 	 * convert number arguments into a int array
