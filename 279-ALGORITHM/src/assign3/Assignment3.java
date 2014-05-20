@@ -113,6 +113,12 @@ public class Assignment3 {
 		}
 	}
 	
+	/**
+	 * Use dynamic programming to compute the optimal cost of breaking a string problem
+	 * Then, print out each subproblem and the overall optimal cost
+	 * @param stringLength length of the string to break
+	 * @param l array of positions to break
+	 */
 	public static void breakString(int stringLength, int[] l) {
 		int[] L = new int[l.length+2];
 		L[0] = 0;
@@ -154,6 +160,13 @@ public class Assignment3 {
 		System.out.println("cost = " + cost[0][m-1]);
 	}
 	
+	/**
+	 * Print out the break order for the optimal solution of a breaking string problem
+	 * @param L array of positions to break
+	 * @param brk array of optimal positions for breaking a string
+	 * @param i start point of brk array
+	 * @param j end point of brk array
+	 */
 	public static void print_breaks(int[] L, int[][] brk, int i, int j) {
 		if (j - i >= 2) {
 			int k = brk[i][j];
@@ -191,6 +204,11 @@ public class Assignment3 {
 	}
 }
 
+/**
+ * Tree Node for part 1 and part 2 of this assignment
+ * @author jerry
+ *
+ */
 class Node {
 	int start;
 	int end;
